@@ -1,0 +1,31 @@
+
+  <h1>Teams</h1>
+
+  <button class="btn btn-success" ng-click="teams.create()">Create Team</button>
+
+  <p>
+  <table class="table table-bordered">
+    <tr>
+      <th>Name</th>
+      <th>Skill</th>
+      <th>Group</th>
+      <th></th>
+    </tr>
+    <tr ng-repeat="team in teams.all">
+      <td>
+      <input type="text" class="form-control" ng-model="team.name" ng-change="teams.save()">
+      </td>
+      <td>
+      <input type="text" class="form-control" ng-model="team.skill" ng-change="teams.save()">
+      </td>
+      <td>
+      <input type="text" class="form-control" ng-model="team.group" ng-change="teams.save()">
+      </td>
+      <td>
+      <button class="btn btn-danger" ng-click="teams.removeTeam($index)">
+      <i class="icon-remove"></i>
+      Remove</button>
+      </td>
+    </tr>
+  </table>
+

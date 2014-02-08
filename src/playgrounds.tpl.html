@@ -1,0 +1,23 @@
+
+  <h1>Playgrounds</h1>
+
+  <button class="btn btn-success" ng-click="createPlayground()">Create Playground</button>
+
+  <p>
+  <table class="table table-bordered">
+    <tr>
+      <th>Name</th>
+      <th></th>
+    </tr>
+    <tr ng-repeat="playground in playgrounds">
+      <td>
+      <input type="text" class="form-control" ng-model="playground.name" ng-change="save()">
+      </td>
+      <td>
+      <button class="btn btn-danger" ng-click="removePlayground($index)">
+      <i class="icon-remove"></i>
+      Remove</button>
+      </td>
+    </tr>
+  </table>
+

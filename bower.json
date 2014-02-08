@@ -1,0 +1,13 @@
+{
+  "name": "tournament",
+  "devDependencies": {
+    "angular": "*",
+    "angular-mocks": "*",
+    "bootstrap": "~3.1.0",
+    "angular-bootstrap": "*",
+    "angular-ui-router": "~0.2.8-bowratic-tedium",
+    "angular-ui-utils": "*",
+    "angular-local-storage": "*"
+  },
+  "dependencies" : {}
+}

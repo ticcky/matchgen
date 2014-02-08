@@ -1,0 +1,18 @@
+<button class="btn btn-warning" ng-click="generateMatches()">Generate</button>
+
+<table class="table table-bordered">
+	<tr>
+		<th>Round</th>
+		<th>Playground</th>
+		<th>Group</th>
+		<th>Team 1</th>
+		<th>Team 2</th>
+	</tr>
+	<tr ng-repeat="match in matches">
+		<td>{{match.round}}</td>
+		<td>{{match.playground.name}}</td>
+		<td>{{match.group}}</td>
+		<td>{{match.team1.name}}</td>
+		<td>{{match.team2.name}}</td>
+	</tr>
+</table>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html ng-app="tournamentApp">
+  <head>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-local-storage.js"></script>
+    <script src="js/controller.js"></script>
+  </head>
+  <body ng-controller="PlayerListCtrl">
+    <button ng-click="setEditPlayers(true)" ng-show="!editPlayers">Edit Players</button>
+    <div ng-show="editPlayers">
+    <button ng-click="createPlayground()">Create Playground</button>
+    <table>
+      <tr ng-repeat="playground in playgrounds">
+        <td><input type="text" ng-model="playground.name" ng-change="save"></td>
+      </tr>
+    </table>
+    <button ng-click="createPlayer()">Create Player</button>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Skill</th>
+        <th>Group</th>
+        <th></th>
+      </tr>
+      <tr ng-repeat="player in players">
+        <td>
+        <input type="text" ng-model="player.name" ng-change="save()">
+        </td>
+        <td>
+        <input type="text" ng-model="player.skill" ng-change="save()">
+        </td>
+        <td>
+        <input type="text" ng-model="player.group" ng-change="save()">
+        </td>
+        <td>
+        <button ng-click="removePlayer($index)">Remove</button>
+        </td>
+      </tr>
+    </table>
+    <div ng-repeat="(group_name, group) in groups">
+      <h2>{{group_name}}</h2>
+      <table>
+        <tr ng-repeat="player in group track by $index">
+          <th>{{player.name}}</th>
+          <th>{{player.points}}</th>
+        </tr>
+      </table>
+    </div>
+
+    <div ng-repeat="(playground_id, matchList) in matches">
+      <h2>Playground {{playground_id}}</h2>
+      <table>
+        <tr ng-repeat="match in matchList">
+          <td><input type="text" ng-model="match.team1_points"></td>
+          <td>{{match.team1.name}}</td>
+          <td>:</td>
+          <td>{{match.team2.name}}</td>
+          <td><input type="text" ng-model="match.team2_points"></td>
+        </tr>
+      </table>
+    </div>
+
+    <button ng-click="setEditPlayers(false)">Done</button>
+    </div>
+
+    <button ng-click="generateMatches()">Generate matches</button>
+
+  </body>
+</html>
