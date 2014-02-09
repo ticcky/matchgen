@@ -32,11 +32,9 @@ function getLocalOrCreate(name) {
   }
 }
 
-/**
- * @description
- * Create optimal match schedule, given the playgrounds and teams.
- */
+
 function optimizeMatches(matches, playgrounds, teams) {
+  /*
   var SIZE_POPULATION = 30;
   var SIZE_NEW_POPULATION = 100;
   var REPRODUCE_FROM_BEST_N = 10;
@@ -45,20 +43,7 @@ function optimizeMatches(matches, playgrounds, teams) {
   var nPlaygrounds = playgrounds.length;
   var maxRounds = Math.floor(nMatches / nPlaygrounds) + 1;
 
-  // Create a random scheduling solution. It is not a solution that fits all the
-  // requirements, but it has the form of solution.
-  //
-  // A solution is the array of rounds for matches. E.g. [2, 2, 1, 3, 1] means
-  // that the first match will be played in the scond round, the third match in
-  // the first round, ...
-  var createRandomSolution = function() {
-    var solution = new Array(nMatches);
-    for(var i = 0; i < nMatches; i++) {
-      solution[i] = randInt(maxRounds);
-    }
-    shuffleArray(solution);
-    return solution;
-  };
+
 
   // Asses fitness of the given solution.
   // fitness < 0 : unacceptable
@@ -179,106 +164,11 @@ function optimizeMatches(matches, playgrounds, teams) {
     }
     return val;
   };
+  */
 
-  // Mutates the population
-  var makeMutation = function(population) {
-    var newPopulation = [];
 
-    while(newPopulation.length < SIZE_NEW_POPULATION) {
-      var choice = Math.random();
-      var member;
-      // Clone.
-      if(choice < 0.1) {
-        // Just pick a member and copy it over to the new population.
-        member = chooseOne(population); //.slice(0, REPRODUCE_FROM_BEST_N));
-        newPopulation.push(member);
-      }
-      // Cross-over.
-      else if (choice < 0.8) {
-        var member1 = chooseOne(population);
-        var member2 = chooseOne(population);
+/*
 
-        if(member1.length !== member2.length) {
-          throw new Error();
-        }
-
-        crossOverPoint = randInt(member1.length);
-
-        // Take a half from the first one and a half from the second one.
-        var newMember1 = member1.slice(0, crossOverPoint)
-            .concat(member2.slice(crossOverPoint));
-        var newMember2 = member2.slice(0, crossOverPoint)
-            .concat(member1.slice(crossOverPoint));
-
-        newPopulation.push(newMember1);
-        newPopulation.push(newMember2);
-      }
-      // Mutate.
-      else {
-        member = chooseOne(population);
-
-        var nChanges = 2; //randInt(member.length);
-        for(var y = 0; y < nChanges; y++) {
-          member[randInt(member.length)] = randInt(maxRounds);
-        }
-
-        newPopulation.push(member);
-      }
-    }
-
-    return newPopulation;
-  };
-
-  // Breed the population. Make the good ones survive, kill the rest.
-  var killOut = function(population) {
-    // Sort the population according to fitness.
-    for(var i = 0; i < population.length; i++) {
-      computeFitness(population[i]);
-      //console.debug("  fitness of(%d): %.2f " + population[i], i, population[i].fitness);
-//       console.debug("     " + population[i].rounds + " " + population[i].);
-
-    }
-
-    population.sort(function(a,b) {
-      if(a.fitness > b.fitness) {
-        return -1;
-      } else {
-        return 1;
-      }
-    });
-
-    // Keep only the best N.
-    return population.slice(0, SIZE_POPULATION);
-  };
-
-  // Create a new random population.
-  var population = [];
-  for(var i = 0; i < SIZE_POPULATION; i++) {
-    population.push(createRandomSolution());
-  }
-
-  var iNum = 0;
-
-  // While the total fitness decreases or we passed a threshold, mutate.
-  var lastFitness = computePopulationFitness(population);
-  var newPopulation;
-  console.debug("Last fitness: %.2f", lastFitness);
-  while(true) {
-    newPopulation = makeMutation(population);
-    population = killOut(newPopulation);
-
-    var newFitness = computePopulationFitness(population);
-    console.debug(iNum + ": new fitness:", newFitness);
-    for(i = 0; i < population.length; i++) {
-      //console.debug(population[i]);
-    }
-
-    iNum += 1;
-
-    if(iNum > 10) {
-      break;
-    }
-  }
 
   // Save.
   var theOne = population[0];
@@ -297,7 +187,24 @@ function optimizeMatches(matches, playgrounds, teams) {
 
     matches[i].playground = playgrounds[roundPlaygrounds[theOne[i]].length];
     roundPlaygrounds[theOne[i]].push(i);
+  }*/
+
+
+
+  var optimizer = new MatchOptimizer(matches, playgrounds, teams);
+  optimizer.addFitness(noTeamPlaysTwiceEachRound, 1.0);
+  optimizer.addFitness(eachRoundHasSameNumberOfMatches, 1.0);
+
+  var cnt = 0.0;
+  var avg = 0.0;
+  for(var i = 0; i < 1; i++) {
+    avg += optimizer.run();
+    cnt += 1;
   }
+
+  console.debug(avg / cnt);
+
+
 }
 
 var tournamentApp = angular.module('tournament', [
